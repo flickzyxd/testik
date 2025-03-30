@@ -1,47 +1,34 @@
 <template>
   <div class="task-card my-style">
     <div>
-      <h4>{{model.title}}</h4>
-      <p>{{model.description}}</p>
+      <h4>{{ form.title }}</h4>
+      <p>{{ form.description }}</p>
     </div>
     <div>
-      <button @click="emitOnDone" v-if="!model.status">✅</button>
-      <button @click="emitOnRemove" v-else>❌</button>
+      <button @click="onDone" v-if="!form.status">✅</button>
+      <button @click="onRemove" v-else>❌</button>
     </div>
   </div>
 </template>
 
-<script>
-export default{
-  emits: ['onDone', 'onRemove'],
-  props: {
-    model: {
-      required: true,
-      default: {
-        id: 0,
-        title: 'Create video',
-        description: 'And upload on Youtube',
-        status: false
-      }
-    }
-  },
-  setup(props, { emit }) {
-  const emitOnDone = () => {
-    emit('onDone')
-  }
+<script setup>
 
-  const emitOnRemove = () => {
-    emit('onRemove')
+const props = defineProps({
+  form: {
+    required: true,
+    default: () => ({
+      id: 0,
+      title: 'Create video',
+      description: 'And upload on Youtube',
+      status: false
+    })
   }
+})
+const emit = defineEmits(['onDone', 'onRemove'])
 
-  return {
-    emitOnDone,
-    emitOnRemove
-  }
+const onDone = () => emit('onDone')
 
-  },
-  name: 'App',
-}
+const onRemove = () => emit('onRemove')
 </script>
 
 <style scoped>
