@@ -1,6 +1,6 @@
 <template>
   <main>
-    <TaskForm @onAddTask="addTask"></TaskForm>
+    <TaskForm v-model="newTaskForm" @onAddTask="addTask"></TaskForm>
     <ul class="task-list">
       <li v-for="item in taskList" :key="item.id">
         <TaskCard
@@ -19,12 +19,17 @@ import TaskForm from "./components/TaskForm.vue";
 import TaskCard from "./components/TaskCard.vue";
 import {onBeforeMount, ref} from 'vue'
 
-export const LOCAL_STORAGE_KEY = 'Lorem ipsum dolor.';
+const LOCAL_STORAGE_KEY = 'Lorem ipsum dolor.';
 const defaultTaskList = [{id: 0, title: 'Test task', description: 'Test description', status: false}];
 
 const taskList = ref(defaultTaskList)
+const newTaskForm = ref({
+  title: '',
+  description: ''
+})
 
-const addTask = ({title, description}) => {
+const addTask = () => {
+  const {title, description} = newTaskForm.value;
   if (!title) {
     return
   }
